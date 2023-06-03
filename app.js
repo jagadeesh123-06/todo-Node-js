@@ -35,7 +35,7 @@ const convertDbObjectToResponseObject = (dbObject) => {
     category: dbObject.category,
     priority: dbObject.priority,
     status: dbObject.status,
-    due_date: dbObject.due_date,
+    dueDate: dbObject.due_date,
   };
 };
 
@@ -64,7 +64,7 @@ const hasCategoryProperty = (requestQuery) => {
 };
 
 const hasDueDateProperty = (requestQuery) => {
-  return requestQuery.due_date !== undefined;
+  return requestQuery.dueDate !== undefined;
 };
 
 const hasPriorityAndStatusProperty = (requestQuery) => {
@@ -310,7 +310,7 @@ app.get("/agenda/", async (request, response) => {
 //API 4
 
 app.post("/todos/", async (request, response) => {
-  const { id, todo, priority, status, category, due_date } = request.body;
+  const { id, todo, priority, status, category, dueDate } = request.body;
   if (priority === "HIGH" || priority === "MEDIUM" || priority === "LOW") {
     if (status === "TO DO" || status === "IN PROGRESS" || status === "DONE") {
       if (
@@ -318,7 +318,7 @@ app.post("/todos/", async (request, response) => {
       ) {
         if (isMatch(dueDate, "yyyy-MM-dd")) {
           const postNewDueDate = format(new Date(dueDate), "yyyy-MM-dd");
-          const postTodoQuery = `INSERT INTO todo (id, todo, priority, status, category, due_date) VALUES (${id}, '${todo}', '${priority}', '${status}', '${category}', '${postNewDueDate}')`;
+          const postTodoQuery = `INSERT INTO todo (id, todo, priority, status, category, dueDate) VALUES (${id}, '${todo}', '${priority}', '${status}', '${category}', '${postNewDueDate}')`;
           await db.run(postTodoQuery);
           response.send("Todo Successfully Added");
         } else {
@@ -398,7 +398,7 @@ app.put("/todos/:todoId/", async (request, response) => {
                 UPDATE
                     todo
                     SET 
-                        todo = '${todo}', priority = '${priority}', status = '${status}', category = '${category}', due_date = '${dueDate}'
+                        todo = '${todo}', priority = '${priority}', status = '${status}', category = '${category}', dueDate = '${dueDate}'
                     WHERE
                         id = ${todoId}
                 `;
@@ -414,7 +414,7 @@ app.put("/todos/:todoId/", async (request, response) => {
                 UPDATE
                     todo
                     SET 
-                        todo = '${todo}', priority = '${priority}', status = '${status}', category = '${category}', due_date = '${dueDate}'
+                        todo = '${todo}', priority = '${priority}', status = '${status}', category = '${category}', dueDate = '${dueDate}'
                     WHERE
                         id = ${todoId}
                 `;
